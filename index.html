@@ -222,7 +222,7 @@ function home(){
   }
   const newQs=BANK.filter(q=>q.u);
   if(newQs.length){
-    app.insertAdjacentHTML('beforeend',`<section class="card rules"><div><span class="new">New &amp; updated rules</span></div><p class="big2">Keep up with the latest changes</p><p class="note">${newQs.length} questions on recent changes, such as Pharmacy First, withdrawn medicines and new pharmacy-only products.</p><button class="btn ghost" id="rulesgo">Practise new rules</button></section>`);
+    app.insertAdjacentHTML('beforeend',`<section class="card hero"><p class="big">New &amp; updated rules</p><p class="note" style="font-size:1rem">Recent changes · 10 questions</p><button class="btn start" id="rulesgo">Start test</button></section>`);
     document.getElementById('rulesgo').addEventListener('click',()=>begin({code:'PRACTICE-NEW',title:'New & updated rules',qs:freshPick(newQs,10)}));
   }
 }
