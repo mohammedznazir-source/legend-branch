@@ -105,7 +105,12 @@ td:last-child,th:last-child{text-align:right}
 .slot.done{color:var(--surface)}.slot.done.comp{background:var(--good);border-color:var(--good)}.slot.done.part{background:var(--warn);border-color:var(--warn)}.slot.done.not{background:var(--bad);border-color:var(--bad)}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--bc);margin-right:5px;vertical-align:middle}
-.practice{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.practice{display:grid;grid-template-columns:1fr;gap:10px}
+#app{display:flex;flex-direction:column;gap:14px}
+.rules{align-items:center;text-align:center;gap:12px}
+.rules .big2{font-family:var(--display);font-weight:800;font-size:1.25rem;margin:0;text-wrap:balance}
+.rules .note{max-width:34ch}
+.rules .btn{align-self:center}
 .practice .btn{align-self:stretch}
 .changes{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
 .logo{background:#ffffff;border-radius:12px;padding:8px 12px;align-self:center;max-width:100%;border:1px solid var(--line)}
@@ -208,6 +213,11 @@ function home(){
     app.innerHTML=`<section class="card hero">${body}</section>`;
     if(mist.length)document.getElementById('go').addEventListener('click',()=>begin({code:'PRACTICE-MISTAKES',title:'My mistakes',qs:shuffle(mist).slice(0,10).map(id=>BANK.find(q=>q.id===id))}));
   }
+  const newQs=BANK.filter(q=>q.u);
+  if(newQs.length){
+    app.insertAdjacentHTML('beforeend',`<section class="card rules"><div><span class="new">New &amp; updated rules</span></div><p class="big2">Keep up with the latest changes</p><p class="note">${newQs.length} questions on recent changes, such as Pharmacy First, withdrawn medicines and new pharmacy-only products.</p><button class="btn ghost" id="rulesgo">Practise new rules</button></section>`);
+    document.getElementById('rulesgo').addEventListener('click',()=>begin({code:'PRACTICE-NEW',title:'New & updated rules',qs:shuffle(newQs).slice(0,10)}));
+  }
 }
 function settings(){
   gear.setAttribute('aria-current','page');
@@ -240,7 +250,6 @@ function settings(){
     <h2>Extra practice</h2>
     <div class="practice">
       <button class="btn ghost" id="pm" ${mist.length?'':'disabled'}>My mistakes (${mist.length})</button>
-      <button class="btn ghost" id="pn" ${newQs.length?'':'disabled'}>New &amp; updated rules (${newQs.length})</button>
     </div>
     <p class="note">“My mistakes” builds a test from questions you got wrong in this browser. A question drops off the list once you get it right.</p>
   </section>
@@ -272,7 +281,6 @@ function settings(){
   app.querySelectorAll('.wk').forEach(b=>b.addEventListener('click',()=>{viewWeek=+b.dataset.w;store.set('ccq-week',viewWeek);settings();}));
   app.querySelectorAll('.slot').forEach(b=>b.addEventListener('click',()=>begin(buildTest(+b.dataset.day,+b.dataset.t))));
   document.getElementById('pm').addEventListener('click',()=>{const ids=shuffle(mist).slice(0,10);begin({code:'PRACTICE-MISTAKES',title:'My mistakes',qs:ids.map(id=>BANK.find(q=>q.id===id))});});
-  document.getElementById('pn').addEventListener('click',()=>begin({code:'PRACTICE-NEW',title:'New & updated rules',qs:shuffle(newQs).slice(0,10)}));
 }
 
 function begin(test){
