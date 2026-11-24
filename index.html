@@ -222,7 +222,7 @@ function home(){
   let body;
   if(n.pick){
     const T=buildTest(n.pick.day,n.pick.t);
-    body=`<p class="big">Ready for your next test?</p><p class="note" style="font-size:1rem">${T.title} · 10 questions</p><button class="btn start" id="go">Start test</button>`;
+    body=`<p class="big">Ready for your next test?</p><button class="btn start" id="go">Start test</button>`;
     app.innerHTML=`<section class="card hero">${body}</section>`;
     document.getElementById('go').addEventListener('click',()=>begin(T));
   }else{
@@ -232,7 +232,7 @@ function home(){
   }
   const newQs=BANK.filter(q=>q.u);
   if(newQs.length){
-    app.insertAdjacentHTML('beforeend',`<section class="card hero"><p class="big">New &amp; updated rules</p><p class="note" style="font-size:1rem">Recent changes · 10 questions</p><button class="btn start" id="rulesgo">Start test</button></section>`);
+    app.insertAdjacentHTML('beforeend',`<section class="card hero"><p class="big">New &amp; updated rules</p><button class="btn start" id="rulesgo">Start test</button></section>`);
     document.getElementById('rulesgo').addEventListener('click',()=>begin({code:'PRACTICE-NEW',title:'New & updated rules',qs:freshPick(newQs,10)}));
   }
 }
